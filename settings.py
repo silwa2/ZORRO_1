@@ -3,11 +3,16 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-6559ws%6b((91p778*)yowcbxa6-=r&l8sy19y#^7m&#3k07r3'
+# SECRET_KEY = 'django-insecure-6559ws%6b((91p778*)yowcbxa6-=r&l8sy19y#^7m&#3k07r3'
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'username.pythonanywhere.com',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -52,9 +57,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'GB_Django.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'silwa2$default',
+        'USER': 'silwa2',
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+        'HOST': 'silwa2.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+                    'init_command': "SET NAMES 'utf8mb4';SET sql_mode='STRICT_TRANS_TABLES'",
+                    'charset': 'utf8mb4',
+        },
     }
 }
 
@@ -81,6 +93,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+STATIC_ROOT = BASE_DIR / 'static/'
 STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
